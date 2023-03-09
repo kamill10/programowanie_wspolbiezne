@@ -34,7 +34,7 @@ namespace CalculatorApp
             var value2= int.Parse(wykladnik.Text);
             int wynik = calculator.pov(value1, value2);
             pokazWynik.Text = wynik.ToString();
-            pokazWynik.FontSize = 30;
+            pokazWynik.FontSize = 50;
             pokazWynik.Foreground = Brushes.Red;
         }
 
