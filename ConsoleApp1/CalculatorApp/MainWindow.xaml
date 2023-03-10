@@ -5,20 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CalculatorApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid Margin="0,-13,0,13">
+        Title="MainWindow" Height="296" Width="412">
+    <Grid Margin="0,10,0,13" RenderTransformOrigin="0.498,0.501" HorizontalAlignment="Left" Width="405">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="129*"/>
-            <ColumnDefinition Width="265*"/>
-            <ColumnDefinition Width="406*"/>
+            <ColumnDefinition Width="71*"/>
+            <ColumnDefinition Width="206*"/>
         </Grid.ColumnDefinitions>
-        <TextBox x:Name="podstawa"  HorizontalAlignment="Left" Height="93" Margin="33,0,0,0" TextWrapping="Wrap"  VerticalAlignment="Center" Width="144" Grid.ColumnSpan="2" TextChanged="podstawa_TextChanged" />
-        <TextBox x:Name="wykladnik" HorizontalAlignment="Left" Height="93"  TextWrapping="Wrap"  VerticalAlignment="Center" Width="136" Grid.Column="2" TextChanged="wykladnik_TextChanged"/>
-        <TextBlock x:Name="pokazWynik"    HorizontalAlignment="Left" Height="76" Margin="157,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="98" Grid.Column="1"/>
-        <Button Content="=" Click="wynikClick" HorizontalAlignment="Left" Height="117" Margin="83,291,0,0" VerticalAlignment="Top" Width="172" Grid.Column="1" RenderTransformOrigin="0.5,0.5"/>
-        <Label Content="Podstawa" Grid.ColumnSpan="2" HorizontalAlignment="Left" Height="26" Margin="64,128,0,0" VerticalAlignment="Top" Width="82"/>
-        <Label Grid.Column="2" Content="Wykładnik" HorizontalAlignment="Left" Height="50" Margin="25,128,0,0" VerticalAlignment="Top" Width="86"/>
-        <Label Grid.Column="1" Content="Wynik" HorizontalAlignment="Left" Height="33" Margin="143,32,0,0" VerticalAlignment="Top" Width="76"/>
+        <TextBox x:Name="podstawa" Height="46" Margin="0,10,25,0" TextWrapping="Wrap"  VerticalAlignment="Top" TextChanged="podstawa_TextChanged" RenderTransformOrigin="0.518,0.506" Grid.Column="2" HorizontalAlignment="Right" Width="144" />
+        <TextBox x:Name="wykladnik" Height="47"  TextWrapping="Wrap"  VerticalAlignment="Top" Grid.Column="2" TextChanged="wykladnik_TextChanged" Margin="0,78,25,0" HorizontalAlignment="Right" Width="144"/>
+        <TextBlock x:Name="pokazWynik"    HorizontalAlignment="Center" Margin="0,162,0,19" TextWrapping="Wrap" Width="155" Grid.Column="2" RenderTransformOrigin="0.493,0.558"/>
+        <Button Content="=" Click="wynikClick" HorizontalAlignment="Center" Height="41" Margin="0,180,0,0" VerticalAlignment="Top" Width="71" RenderTransformOrigin="0.5,0.5" Grid.Column="1"/>
+        <Label Content="Podstawa:" Height="44" Margin="10,30,71,0" VerticalAlignment="Top" Grid.ColumnSpan="2"/>
+        <Label Content="Wykładnik:" HorizontalAlignment="Center" Height="50" Margin="0,100,0,0" VerticalAlignment="Top" Width="118"/>
+        <Label Content="Wynik:" HorizontalAlignment="Center" Height="33" Margin="0,184,0,0" VerticalAlignment="Top" Width="108"/>
 
 
     </Grid>
