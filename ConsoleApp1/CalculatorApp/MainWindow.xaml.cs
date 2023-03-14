@@ -22,20 +22,25 @@ namespace CalculatorApp
     public partial class MainWindow : Window
     {
         private Calculator calculator = new Calculator();
+
+       
+
         public MainWindow()
         {
-            InitializeComponent();
+        InitializeComponent();
+            
            
         }
 
         private void wynikClick(object sender, RoutedEventArgs e)
         {
-                var value1 = int.Parse(podstawa.Text);
+            var value1 = int.Parse(podstawa.Text);
             var value2= int.Parse(wykladnik.Text);
             int wynik = calculator.pov(value1, value2);
             pokazWynik.Text = wynik.ToString();
             pokazWynik.FontSize = 50;
             pokazWynik.Foreground = Brushes.Red;
+           
         }
 
         private void podstawa_TextChanged(object sender, TextChangedEventArgs e)
@@ -48,7 +53,6 @@ namespace CalculatorApp
         {
             wykladnik.HorizontalContentAlignment = HorizontalAlignment.Center;
             wykladnik.VerticalContentAlignment = VerticalAlignment.Center;
-            
         }
     }
 }
