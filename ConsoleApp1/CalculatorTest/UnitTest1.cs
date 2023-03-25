@@ -5,9 +5,7 @@ namespace CalculatorTest
     public class Tests
     {
         private int result1;
-        private int result2;
-        private double result3;
-        private double result4;
+      
         Calculator calculator = new Calculator();
 
         [SetUp]
