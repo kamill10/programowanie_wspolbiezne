@@ -52,7 +52,7 @@ namespace Presentation.ViewModel
            
             modelApi.CreateBalls( _ballsAmount);
             Console.WriteLine("test");
-            Ellipse ellipse = new Ellipse();
+            Ellipse ellipse = new();
 
             modelApi.TaskRun();
             while (true)
