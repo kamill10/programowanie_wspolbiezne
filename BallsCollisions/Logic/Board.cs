@@ -39,8 +39,8 @@ namespace Logic
             Random random = new Random();
             for(int i =0; i < amount; i++)
             {
-                Balls ball = new Balls(3);
-                ball.Position = new System.Numerics.Vector2(random.Next(1, BoardWidth - 20), random.Next(1,BoardHeight - 10));
+                Balls ball = new Balls(10);
+                ball.Position = new System.Numerics.Vector2(random.Next(10, BoardWidth - 15), random.Next(10,BoardHeight - 15));
                 ball.Valocity = new System.Numerics.Vector2((float) 0.003, (float)0.003);
                 _balls.Add(ball);
             }

@@ -47,33 +47,30 @@ namespace Presentation.ViewModel
 
         private async void OnClickButton()
         {
-            Console.WriteLine("test");
-            modelApi.CreateBalls(_ballsAmount);
-            Console.WriteLine("test");
-            Ellipse ellipse = new()
-            {
-                Width = 25,
-                Height = 25,
-                Fill = Brushes.Blue,
-                Stroke = Brushes.Black,
-                StrokeThickness = 2
-            };
-            _ballCanvas.Children.Add(ellipse);
+          
+            modelApi.CreateBalls( _ballsAmount);
+        
 
-            modelApi.TaskRun();
+           /* modelApi.TaskRun();
             while (true)
             {
-                // Update the positions of the balls on the canvas
+                // Update the positions of the balls on the canvas*/
                 foreach (var ball in modelApi.GetBalls())
                 {
-
+                    Ellipse ellipse = new Ellipse();
+                    ellipse.Width = ball.Radious;
+                    ellipse.Height = ball.Radious;
+                    ellipse.Fill = Brushes.Blue;
+                    ellipse.Stroke = Brushes.Black;
+                    ellipse.StrokeThickness = 2;
+                    _ballCanvas.Children.Add(ellipse);
                     Canvas.SetLeft(ellipse, ball.Position.X);
                     Canvas.SetTop(ellipse, ball.Position.Y);
-                }
+                
 
                 // Sleep for a short period of time to avoid overwhelming the UI thread
-                await Task.Delay(10);
-            }
+               // await Task.Delay(10);
+            } 
         }
 
         private void OnExitClick()
