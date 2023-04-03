@@ -1,25 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Media3D;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using Presentation.Model;
-using System.ComponentModel;
-using System.Collections.ObjectModel;
-using System.Windows.Media;
 
 namespace Presentation.ViewModel
 {
-    
+
     public class ViewApi : INotifyPropertyChanged, System.Windows.Markup.INameScope
     {
-        private readonly NameScope _nameScope = new NameScope();
+        private readonly NameScope _nameScope = new();
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void OnPropertyChanged(string propertyName)
         {
@@ -43,24 +38,26 @@ namespace Presentation.ViewModel
             }
         }
 
-        public ViewApi()
+        public ViewApi(Canvas ballCanvas)
         {
             ClickButton = new RelayCommand(OnClickButton);
             ExitClick = new RelayCommand(OnExitClick);
-            _ballCanvas = (Canvas)FindName("BallCanvas");
+            _ballCanvas = ballCanvas;
         }
 
-        private async   void OnClickButton()
+        private async void OnClickButton()
         {
             Console.WriteLine("test");
-            modelApi.CreateBalls( _ballsAmount);
+            modelApi.CreateBalls(_ballsAmount);
             Console.WriteLine("test");
-            Ellipse ellipse = new Ellipse();
-            ellipse.Width = 25;
-            ellipse.Height = 25;
-            ellipse.Fill = Brushes.Blue;
-            ellipse.Stroke = Brushes.Black;
-            ellipse.StrokeThickness = 2;
+            Ellipse ellipse = new()
+            {
+                Width = 25,
+                Height = 25,
+                Fill = Brushes.Blue,
+                Stroke = Brushes.Black,
+                StrokeThickness = 2
+            };
             _ballCanvas.Children.Add(ellipse);
 
             modelApi.TaskRun();
@@ -69,7 +66,7 @@ namespace Presentation.ViewModel
                 // Update the positions of the balls on the canvas
                 foreach (var ball in modelApi.GetBalls())
                 {
-                   
+
                     Canvas.SetLeft(ellipse, ball.Position.X);
                     Canvas.SetTop(ellipse, ball.Position.Y);
                 }
@@ -80,7 +77,7 @@ namespace Presentation.ViewModel
         }
 
         private void OnExitClick()
-        { 
+        {
             modelApi.TaskStop();
 
         }
@@ -99,8 +96,32 @@ namespace Presentation.ViewModel
             _nameScope.UnregisterName(name);
         }
 
+        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
+        {
+            if (!Equals(field, newValue))
+            {
+                field = newValue;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+                return true;
+            }
+
+            return false;
+        }
+
+        private System.Collections.IEnumerable ellipses;
+
+        public System.Collections.IEnumerable Ellipses { get => ellipses; set => SetProperty(ref ellipses, value); }
+
+        private double viewHeight;
+
+        public double ViewHeight { get => viewHeight; set => SetProperty(ref viewHeight, value); }
+
+        private double viewWidth;
+
+        public double ViewWidth { get => viewWidth; set => SetProperty(ref viewWidth, value); }
+
 
     }
 
-    }
+}
 
