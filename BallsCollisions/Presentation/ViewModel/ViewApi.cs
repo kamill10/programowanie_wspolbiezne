@@ -43,40 +43,39 @@ namespace Presentation.ViewModel
             }
         }
 
-        public ViewApi()
+        public ViewApi(Canvas ballCanvas)
         {
             ClickButton = new RelayCommand(OnClickButton);
             ExitClick = new RelayCommand(OnExitClick);
-            _ballCanvas = (Canvas)FindName("BallCanvas");
+            _ballCanvas = ballCanvas;
         }
 
         private async   void OnClickButton()
         {
-            Console.WriteLine("test");
+          
             modelApi.CreateBalls( _ballsAmount);
-            Console.WriteLine("test");
-            Ellipse ellipse = new Ellipse();
-            ellipse.Width = 25;
-            ellipse.Height = 25;
-            ellipse.Fill = Brushes.Blue;
-            ellipse.Stroke = Brushes.Black;
-            ellipse.StrokeThickness = 2;
-            _ballCanvas.Children.Add(ellipse);
+        
 
-            modelApi.TaskRun();
+           /* modelApi.TaskRun();
             while (true)
             {
-                // Update the positions of the balls on the canvas
+                // Update the positions of the balls on the canvas*/
                 foreach (var ball in modelApi.GetBalls())
                 {
-                   
+                    Ellipse ellipse = new Ellipse();
+                    ellipse.Width = ball.Radious;
+                    ellipse.Height = ball.Radious;
+                    ellipse.Fill = Brushes.Blue;
+                    ellipse.Stroke = Brushes.Black;
+                    ellipse.StrokeThickness = 2;
+                    _ballCanvas.Children.Add(ellipse);
                     Canvas.SetLeft(ellipse, ball.Position.X);
                     Canvas.SetTop(ellipse, ball.Position.Y);
-                }
+                
 
                 // Sleep for a short period of time to avoid overwhelming the UI thread
-                await Task.Delay(10);
-            }
+               // await Task.Delay(10);
+            } 
         }
 
         private void OnExitClick()
