@@ -12,23 +12,21 @@
         <TextBox Text="{Binding BallsAmount}" x:Name="inputNumber"  HorizontalAlignment="Left" Height="24" Margin="203,16,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="48"/>
         <Button Content="Stop" Command="{Binding ExitClick}" HorizontalAlignment="Left" Margin="487,17,0,0" VerticalAlignment="Top" Height="23" Width="95"/>
         <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="30,0,150,0" Height="400">
-            <Canvas x:Name="BallCanvas" Height="{Binding ViewHeight}" Width="{Binding ViewWidth}" >
+            <Canvas x:Name="BallCanvas" Height="{Binding ViewHeight}" Width="{Binding ViewWidth}">
                 <Border BorderBrush="#707070" BorderThickness="1" Height="450" Width="750" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-
-                <ItemsControl ItemsSource="{Binding Path = Ellipses}">
+                <ItemsControl ItemsSource="{Binding Balls}">
+                    <ItemsControl.ItemContainerStyle>
+                        <Style TargetType="ContentPresenter">
+                            <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                            <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                        </Style>
+                    </ItemsControl.ItemContainerStyle>
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate >
-                            <Canvas>
-                                <Ellipse Width="25" Height="25" Fill="#2b83e2" Stroke="#707070" StrokeThickness="2">
-                                    <Ellipse.RenderTransform>
-                                        <TranslateTransform X="{Binding X}" Y="{Binding Y}"/>
-                                    </Ellipse.RenderTransform>
-                                </Ellipse>
-                            </Canvas>
+                        <DataTemplate>
+                            <Ellipse Width="20" Height="20" Fill="Red"/>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-
             </Canvas>
         </StackPanel>
     </Grid>

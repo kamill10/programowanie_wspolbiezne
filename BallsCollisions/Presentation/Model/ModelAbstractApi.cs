@@ -20,7 +20,7 @@ namespace Presentation.Model
         public abstract void CreateBalls(int amount);
         public abstract void TaskRun();
         public abstract void TaskStop();
-        public abstract ObservableCollection<Balls> GetBalls();
+        public abstract ObservableCollection<Balls>Balls();
        
 
     }
@@ -37,7 +37,7 @@ namespace Presentation.Model
 
         }
 
-        public override ObservableCollection<Balls> GetBalls()
+        public override ObservableCollection<Balls> Balls()
         {
             return board.Balls;
         }

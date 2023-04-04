@@ -41,17 +41,16 @@ namespace Logic
             return new Board(ballnumber);
         }
 
-        public override void TaskRun(Board board)
+        public async  override void TaskRun(Board board)
         {
             //So we must get allBalls from Board and Update their position using Tasks
             foreach(var balls in board.Balls)
             {
-                Task task = Task.Run(() =>
+                Task task = Task.Run(async () =>
                 {
-                    Thread.Sleep(1);
                     while (true)
                     {
-                        Thread.Sleep(10);
+                        await Task.Delay(10);
                         try
                         {
                             _cancelToken.ThrowIfCancellationRequested();

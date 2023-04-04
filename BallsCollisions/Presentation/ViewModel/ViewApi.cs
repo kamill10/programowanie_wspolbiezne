@@ -17,7 +17,7 @@ using System.Windows.Media;
 namespace Presentation.ViewModel
 {
     
-    public class ViewApi : INotifyPropertyChanged, System.Windows.Markup.INameScope
+    public class ViewApi : INotifyPropertyChanged
     {
         private readonly NameScope _nameScope = new NameScope();
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -29,7 +29,7 @@ namespace Presentation.ViewModel
         public ICommand ClickButton { get; set; }
         public ICommand ExitClick { get; set; }
         private int _ballsAmount;
-        private Canvas _ballCanvas { get; set; }
+ 
 
 
         public int BallsAmount
@@ -43,39 +43,21 @@ namespace Presentation.ViewModel
             }
         }
 
-        public ViewApi(Canvas ballCanvas)
+        public ViewApi()
         {
             ClickButton = new RelayCommand(OnClickButton);
             ExitClick = new RelayCommand(OnExitClick);
-            _ballCanvas = ballCanvas;
+            
         }
 
-        private async   void OnClickButton()
+        private  void OnClickButton()
         {
-          
-            modelApi.CreateBalls( _ballsAmount);
-        
 
-           /* modelApi.TaskRun();
-            while (true)
-            {
-                // Update the positions of the balls on the canvas*/
-                foreach (var ball in modelApi.GetBalls())
-                {
-                    Ellipse ellipse = new Ellipse();
-                    ellipse.Width = ball.Radious;
-                    ellipse.Height = ball.Radious;
-                    ellipse.Fill = Brushes.Blue;
-                    ellipse.Stroke = Brushes.Black;
-                    ellipse.StrokeThickness = 2;
-                    _ballCanvas.Children.Add(ellipse);
-                    Canvas.SetLeft(ellipse, ball.Position.X);
-                    Canvas.SetTop(ellipse, ball.Position.Y);
-                
+            modelApi.CreateBalls(_ballsAmount);
 
-                // Sleep for a short period of time to avoid overwhelming the UI thread
-               // await Task.Delay(10);
-            } 
+
+            modelApi.TaskRun();
+           
         }
 
         private void OnExitClick()
