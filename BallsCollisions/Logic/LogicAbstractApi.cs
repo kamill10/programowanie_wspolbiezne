@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
-using Data;
+﻿using System.Numerics;
+
 
 namespace Logic
 {
-    public abstract   class LogicAbstractApi
+    public abstract class LogicAbstractApi
     {
         //refer to Data
         public static LogicAbstractApi CreateLogicAPI()
         {
             return new LogicApi();
         }
-        public abstract Balls GenerateBalls(Vector2 position,int radious);
+        public abstract Balls GenerateBalls(Vector2 position, int radious);
         public abstract Board GenerateBoard(int ballnumber);
         public abstract void TaskRun(Board board);
         public abstract void TaskStop(Board board);
@@ -27,7 +22,7 @@ namespace Logic
 
         public LogicApi()
         {
-            
+
         }
 
         public CancellationToken CancellationToken => _cancelToken;
@@ -44,7 +39,7 @@ namespace Logic
         public async  override void TaskRun(Board board)
         {
             //So we must get allBalls from Board and Update their position using Tasks
-            foreach(var balls in board.Balls)
+            foreach (var balls in board.Balls)
             {
                 Task task = Task.Run(async () =>
                 {
@@ -55,7 +50,7 @@ namespace Logic
                         {
                             _cancelToken.ThrowIfCancellationRequested();
                         }
-                        catch(OperationCanceledException)
+                        catch (OperationCanceledException)
                         {
                             break;
                         }
@@ -70,10 +65,10 @@ namespace Logic
 
         public override void TaskStop(Board board)
         {
-            _tasks.Clear();
             board.Balls.Clear();
+            _tasks.Clear();
         }
 
-       
+
     }
 }
