@@ -13,7 +13,6 @@ namespace BallsCollisions
             InitializeComponent();
             DataContext = new ViewApi(BallCanvas);
         }
-
-
     }
 }
+

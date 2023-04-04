@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 
 namespace Logic
 {
-    public class Balls :INotifyPropertyChanged
+    public class Balls : INotifyPropertyChanged
     {
         private Vector2 _valocity;
         private Vector2 _position;
@@ -16,7 +16,7 @@ namespace Logic
             _position = position;
             _radious = radious;
         }
-        public Balls( float radious)
+        public Balls(float radious)
         {
             _radious = radious;
         }
@@ -28,10 +28,11 @@ namespace Logic
             get => _position;
             set => _position = value;
         }
-        public float  Radious {
+        public float Radious
+        {
             get => _radious;
-            set => _radious=value;
-            }
+            set => _radious = value;
+        }
         public float X()
         {
             return _position.X;
@@ -51,7 +52,7 @@ namespace Logic
         public void ChangePosition()
         {
             Position += new Vector2(_valocity.X * _speed, _valocity.Y * _speed);
-            if (_position.X<_radious ||_position.Y>Board._boardWidth-20)
+            if (_position.X < _radious || _position.X > Board._boardWidth - 20)
             {
                 _valocity.X = -_valocity.X;
             }

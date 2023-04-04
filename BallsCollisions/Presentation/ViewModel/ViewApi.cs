@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
@@ -7,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Logic;
 using Presentation.Model;
 
 namespace Presentation.ViewModel
@@ -20,7 +20,8 @@ namespace Presentation.ViewModel
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-        ModelAbstractApi modelApi = ModelAbstractApi.CreateModelApi();
+
+        readonly ModelAbstractApi modelApi = ModelAbstractApi.CreateModelApi();
         public ICommand ClickButton { get; set; }
         public ICommand ExitClick { get; set; }
         private int _ballsAmount;
@@ -47,30 +48,30 @@ namespace Presentation.ViewModel
 
         private async void OnClickButton()
         {
-          
-            modelApi.CreateBalls( _ballsAmount);
-        
-
-           /* modelApi.TaskRun();
+            modelApi.CreateBalls(_ballsAmount);
+            modelApi.TaskRun();
             while (true)
             {
-                // Update the positions of the balls on the canvas*/
+                // Update the positions of the balls on the canvas
                 foreach (var ball in modelApi.GetBalls())
                 {
-                    Ellipse ellipse = new Ellipse();
-                    ellipse.Width = ball.Radious;
-                    ellipse.Height = ball.Radious;
-                    ellipse.Fill = Brushes.Blue;
-                    ellipse.Stroke = Brushes.Black;
-                    ellipse.StrokeThickness = 2;
-                    _ballCanvas.Children.Add(ellipse);
+                    Ellipse ellipse = new()
+                    {
+                        Width = ball.Radious,
+                        Height = ball.Radious,
+                        Fill = Brushes.Blue,
+                        Stroke = Brushes.Black,
+                        StrokeThickness = 2
+                    };
+                    _ballCanvas.Children.Add(ellipse);                
                     Canvas.SetLeft(ellipse, ball.Position.X);
                     Canvas.SetTop(ellipse, ball.Position.Y);
-                
-
+                    
+                }
                 // Sleep for a short period of time to avoid overwhelming the UI thread
-               // await Task.Delay(10);
-            } 
+                await Task.Delay(10);
+                _ballCanvas.Children.Clear();
+            }          
         }
 
         private void OnExitClick()
