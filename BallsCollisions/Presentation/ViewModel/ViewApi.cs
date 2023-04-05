@@ -94,31 +94,6 @@ namespace Presentation.ViewModel
             _nameScope.UnregisterName(name);
         }
 
-        protected bool SetProperty<T>(ref T field, T newValue, [CallerMemberName] string propertyName = null)
-        {
-            if (!Equals(field, newValue))
-            {
-                field = newValue;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-                return true;
-            }
-
-            return false;
-        }
-
-        private System.Collections.IEnumerable ellipses;
-
-        public System.Collections.IEnumerable Ellipses { get => ellipses; set => SetProperty(ref ellipses, value); }
-
-        private double viewHeight;
-
-        public double ViewHeight { get => viewHeight; set => SetProperty(ref viewHeight, value); }
-
-        private double viewWidth;
-
-        public double ViewWidth { get => viewWidth; set => SetProperty(ref viewWidth, value); }
-
-
     }
 
 }

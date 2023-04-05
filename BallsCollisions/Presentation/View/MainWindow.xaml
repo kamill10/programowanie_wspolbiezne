@@ -12,7 +12,7 @@
         <TextBox Text="{Binding BallsAmount}" x:Name="inputNumber" Margin="208,16,0,0" TextWrapping="Wrap" Height="24" VerticalAlignment="Top" HorizontalAlignment="Left" Width="48"/>
         <Button Content="Stop" Command="{Binding ExitClick}" Margin="442,17,0,0" Height="23" VerticalAlignment="Top" HorizontalAlignment="Left" Width="96"/>
         <Border BorderBrush="#707070" BorderThickness="2" Height="450" Width="750" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,50,0,0">
-            <Canvas x:Name="BallCanvas" Height="430" Width="730" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" />
+            <Canvas x:Name="BallCanvas" Height="450" Width="750" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" />
         </Border>
     </Grid>
 </Window>

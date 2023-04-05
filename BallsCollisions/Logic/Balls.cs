@@ -8,7 +8,7 @@ namespace Logic
     {
         private Vector2 _valocity;
         private Vector2 _position;
-        private static int _speed = 1500;
+        private static int _speed = 1000;
         private float _radious;
 
         public Balls(Vector2 position, float radious)
@@ -52,11 +52,11 @@ namespace Logic
         public void ChangePosition()
         {
             Position += new Vector2(_valocity.X * _speed, _valocity.Y * _speed);
-            if (_position.X < _radious || _position.X > Board._boardWidth - 20)
+            if (_position.X < _radious-20 || _position.X > Board._boardWidth - 20)
             {
                 _valocity.X = -_valocity.X;
             }
-            if (_position.Y < _radious || _position.Y > Board._boardHeight - 20)
+            if (_position.Y < _radious-20 || _position.Y > Board._boardHeight - 20)
             {
                 _valocity.Y = -_valocity.Y;
             }
