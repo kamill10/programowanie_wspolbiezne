@@ -10,6 +10,8 @@ namespace Logic
         private Vector2 _position;
         private static int _speed = 1500;
         private float _radious;
+        private float _X;
+        private float _Y;
 
         public Balls(Vector2 position, float radious)
         {
@@ -33,13 +35,15 @@ namespace Logic
             get => _radious;
             set => _radious = value;
         }
-        public float X()
+        public float X
         {
-            return _position.X;
+            get { return _position.X; }
+            set => X = value;
         }
-        public float Y()
+        public float Y
         {
-            return _position.Y;
+            get { return _position.Y; }
+            set=>Y=value;
         }
         public Vector2 Valocity
         {
@@ -52,11 +56,11 @@ namespace Logic
         public void ChangePosition()
         {
             Position += new Vector2(_valocity.X * _speed, _valocity.Y * _speed);
-            if (_position.X < _radious || _position.X > Board._boardWidth - 20)
+            if (_position.X < _radious-10|| _position.X > Board._boardWidth - _radious)
             {
                 _valocity.X = -_valocity.X;
             }
-            if (_position.Y < _radious || _position.Y > Board._boardHeight - 20)
+            if (_position.Y < _radious || _position.Y > Board._boardHeight - _radious)
             {
                 _valocity.Y = -_valocity.Y;
             }

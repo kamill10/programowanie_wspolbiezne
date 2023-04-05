@@ -10,8 +10,7 @@ namespace Logic
         {
             return new LogicApi();
         }
-        public abstract Balls GenerateBalls(Vector2 position, int radious);
-        public abstract Board GenerateBoard(int ballnumber);
+      
         public abstract void TaskRun(Board board);
         public abstract void TaskStop(Board board);
     }
@@ -26,15 +25,7 @@ namespace Logic
         }
 
         public CancellationToken CancellationToken => _cancelToken;
-        public override Balls GenerateBalls(Vector2 position, int radious)
-        {
-            return new Balls(position, radious);
-        }
-
-        public override Board GenerateBoard(int ballnumber)
-        {
-            return new Board(ballnumber);
-        }
+   
 
         public async  override void TaskRun(Board board)
         {

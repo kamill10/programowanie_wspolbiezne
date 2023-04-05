@@ -11,8 +11,8 @@ namespace BallsCollisions
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = new Presentation.Model.ModelApi();
-            BallCanvas.DataContext = DataContext;
+            DataContext = new ViewApi();
+           
         }
     }
 }

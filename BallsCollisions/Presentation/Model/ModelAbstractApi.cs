@@ -29,7 +29,7 @@ namespace Presentation.Model
             board.GenerateBalls(amount);
         }
 
-        public override ObservableCollection<Balls> Balls()
+        public override ObservableCollection<Balls> GetBalls()
         {
             return board.Balls;
         }
