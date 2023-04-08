@@ -26,7 +26,6 @@ namespace Presentation.ViewModel
         public ICommand ClickButton { get; set; }
         public ICommand ExitClick { get; set; }
         private int _ballsAmount;
-        //public Canvas BallCanvas { get; set; }
         public System.Collections.Generic.IList<Balls> _Balls { get; set; }
 
        
@@ -46,7 +45,6 @@ namespace Presentation.ViewModel
             set
             {
                 _Balls = value;
-                // Add any additional logic here when the text value is changed
                 OnPropertyChanged(nameof(_Balls));
             }
         }
@@ -55,17 +53,16 @@ namespace Presentation.ViewModel
         {
             ClickButton = new RelayCommand(OnClickButton);
             ExitClick = new RelayCommand(OnExitClick);
-            //BallCanvas = (Canvas)Application.Current.MainWindow.FindName("BallCanvas");
             _Balls = getBalls();
         }
 
-        private async void OnClickButton()
+        private void OnClickButton()
         {
             modelApi.CreateBalls(_ballsAmount);
             modelApi.TaskRun();
-                 
+
         }
-       public System.Collections.Generic.IList<Balls> getBalls()
+        public System.Collections.Generic.IList<Balls> getBalls()
         {
             return modelApi.GetBalls();
         }

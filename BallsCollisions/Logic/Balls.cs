@@ -8,10 +8,19 @@ namespace Logic
     {
         private Vector2 _valocity;
         private Vector2 _position;
+<<<<<<< HEAD
         private static int _speed = 1000;
+=======
+        private int _speed;
+>>>>>>> 485ec004485d741a6c6438375cc32ecffb347ba2
         private float _radious;
         private float _X;
         private float _Y;
+
+        public int Speed
+        {
+            get => _speed; set => Speed = value;
+        }
 
         public Balls(Vector2 position, float radious)
         {

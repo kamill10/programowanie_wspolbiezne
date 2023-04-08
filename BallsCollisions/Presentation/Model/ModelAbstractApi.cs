@@ -7,7 +7,7 @@ namespace Presentation.Model
     {
 
 
-        public static ModelApi CreateModelApi()
+        public static ModelApi CreateModelApi( )
         {
             return new ModelApi();
         }
@@ -20,7 +20,10 @@ namespace Presentation.Model
     }
     public class ModelApi : ModelAbstractApi
     {
-        LogicAbstractApi logicApi = LogicAbstractApi.CreateLogicAPI();
+        LogicAbstractApi logicApi = new LogicApi();
+       public  ModelApi()
+        {
+        }
         Board board = new();
 
 
