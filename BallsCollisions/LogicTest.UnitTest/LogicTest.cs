@@ -1,3 +1,4 @@
+using Data;
 using Logic;
 using System.Numerics;
 
@@ -5,44 +6,61 @@ namespace LogicTest.UnitTest
 {
     public class Tests
     {
+        LogicAbstractApi api;
 
         [SetUp]
         public void Setup()
         {
-           
+            api = LogicAbstractApi.CreateLogicAPI(DataAbstractApi.CreateDataApi());
+
         }
 
         [Test]
         public void BoardTest()
         {
-            Board board = new Board();
+            Board board = new();
             board.GenerateBalls(10);
-            Assert.True(board.Balls.Count == 10);
-
+            Assert.That(board.Balls, Has.Count.EqualTo(10));
         }
-        public void Balls_Move()
+
+        [Test]
+        public void BallContructorTest()
         {
-            // Arrange
-            var obj = new Balls();
-            obj.Position = new Vector2(50, 50);
-            obj.Valocity = new Vector2(1, 1);
-            obj.Speed = 10;
-            obj.Radious = 10;
-            Assert.True(obj.X == 50);
-            Assert.True(obj.Y == 50);
-            Assert.True(obj.Valocity == new Vector2(1, 1));
-            Assert.True(obj.Position == new Vector2(50, 50));
-            Assert.True(obj.Speed == 10);            // Act
-            obj.ChangePosition();
-            // Assert
-            Assert.AreEqual(new Vector2(60, 60), obj.Position); // position should be updated
-            //Check bound from the wall
-            obj.Position = new Vector2(741, 451);
-            obj.Valocity = new Vector2(1, 1);
-            obj.ChangePosition();
-            Assert.AreEqual(new Vector2(731, 431), obj.Position); // position should be updated
-            Assert.AreEqual(new Vector2(-1, -1), obj.Valocity); // position should be updated
+            Vector2 v = new(1, 2);
+            int radius = 5;
+            Balls ball = new(v, radius);
+            Assert.Multiple(() =>
+            {
+                Assert.That(ball.Radious, Is.EqualTo(radius));
+                Assert.That(ball.Position, Is.EqualTo(v));
+            });
+        }
+
+        [Test]
+        public void PositionChangedTest()
+        {
+            Balls ball = new()
+            {
+                Valocity = new Vector2((float)0.003, (float)0.003),
+                Position = new Vector2(50, 50)
+            };
+            ball.ChangePosition();
+            Vector2 vector = new((float)(50 + 1500 * 0.003), (float)(50 + 1500 * 0.003));
+            Assert.That(ball.Position, Is.EqualTo(vector));
+        }
+
+
+
+        [Test]
+        public void logicApiTest()
+        {
+            Board board = new();
+            board.GenerateBalls(10);
+            api.TaskRun(board);
+            api.TaskStop(board);
+            Assert.That(board.Balls, Is.Empty);
 
         }
+
     }
 }
