@@ -19,6 +19,7 @@ namespace Logic
         private List<Thread> _tasks = new List<Thread>();
         private CancellationToken _cancelToken;
         DataAbstractApi data;
+        private bool isCancelled;
 
         public LogicApi()
         {
@@ -34,34 +35,36 @@ namespace Logic
 
         public override void TaskRun(Board board)
         {
-
+            isCancelled = false;
             //So we must get allBalls from Board and Update their position using Tasks
             foreach (var ball in board.Balls)
             {
                 Thread thread = new Thread(() =>
                 {
-                    while (true)
+                    while (!isCancelled)
                     {
-                        Thread.Sleep(10);
-                        if (_cancelToken.IsCancellationRequested)
-                        {
-                            break;
-                        }
                         ball.ChangePosition();
+                        Thread.Sleep(10);
                     }
                 });
                 thread.Start();
                 _tasks.Add(thread);
             }
+
+
         }
 
 
         public override void TaskStop(Board board)
         {
+            isCancelled = true;
             board.Balls.Clear();
+            foreach (Thread thread in _tasks)
+            {
+                thread.Join();
+            }
             _tasks.Clear();
         }
-
 
     }
 }
