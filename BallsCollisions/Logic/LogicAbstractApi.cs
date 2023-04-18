@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using System.Threading;
 using Data;
 
 namespace Logic
@@ -16,7 +17,7 @@ namespace Logic
     }
     public class LogicApi : LogicAbstractApi
     {
-        private List<Task> _tasks = new List<Task>();
+        private List<Thread> _tasks = new List<Thread>();
         private CancellationToken _cancelToken;
         DataAbstractApi data;
 
@@ -34,30 +35,25 @@ namespace Logic
 
          public async  override void TaskRun(Board board)
           {
-              //So we must get allBalls from Board and Update their position using Tasks
-              foreach (var ball in board.Balls)
-              {
-                  Task task = Task.Run(async () =>
-                  {
-                      while (true)
-                      {
-                          await Task.Delay(10);
-                          try
-                          {
-                              _cancelToken.ThrowIfCancellationRequested();
-                          }
-                          catch (OperationCanceledException)
-                          {
-                              break;
-                          }
-                          ball.ChangePosition();
-                      }
-
-                  }
-                  );
-                  _tasks.Add(task);
-              }
-          }
+            //So we must get allBalls from Board and Update their position using Tasks
+            foreach (var ball in board.Balls)
+            {
+                Thread thread = new Thread(() =>
+                {
+                    while (true)
+                    {
+                        Thread.Sleep(10);
+                        if (_cancelToken.IsCancellationRequested)
+                        {
+                            break;
+                        }
+                        ball.ChangePosition();
+                    }
+                });
+                thread.Start();
+                _tasks.Add(thread);
+            }
+        }
 
     
         public override void TaskStop(Board board)

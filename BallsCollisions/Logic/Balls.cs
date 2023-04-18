@@ -8,7 +8,7 @@ namespace Logic
     {
         private Vector2 _valocity;
         private Vector2 _position;
-        private int _speed = 1500;
+        private int _speed = 1000;
         private float _radious;
   
 
