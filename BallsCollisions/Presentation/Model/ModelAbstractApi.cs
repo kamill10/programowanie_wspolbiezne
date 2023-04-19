@@ -13,7 +13,7 @@ namespace Presentation.Model
         {
             return new ModelApi( data);
         }
-        public abstract void CreateBalls();
+        public abstract void CreateBall(int amount );
         public abstract void TaskRun();
         public abstract void TaskStop();
         public abstract ObservableCollection<Balls> GetBalls();
@@ -32,9 +32,9 @@ namespace Presentation.Model
         }
 
 
-        public override void CreateBalls()
+        public override void CreateBall(int amount )
         {
-            _data.generateBalls();
+            _data.generateBalls(amount );
         }
 
         public override ObservableCollection<Balls> GetBalls()

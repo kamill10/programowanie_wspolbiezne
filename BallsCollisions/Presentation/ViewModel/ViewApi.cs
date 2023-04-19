@@ -25,7 +25,7 @@ namespace Presentation.ViewModel
         public ICommand ExitClick { get; set; }
         private int _ballsAmount;
         public System.Collections.Generic.IList<Balls> _Balls { get; set; }
-        private ModelAbstractApi modelApi = ModelAbstractApi.CreateModelApi(DataAbstractApi.CreateDataApi(3,3,3));
+        private ModelAbstractApi modelApi = ModelAbstractApi.CreateModelApi(DataAbstractApi.CreateDataApi(3,3));
 
 
 
@@ -61,16 +61,13 @@ namespace Presentation.ViewModel
 
         private void OnClickButton()
         {
-            modelApi.CreateBalls();
+            modelApi.CreateBall(_ballsAmount);
 
             if (modelApi.GetBalls().Count == 0)
             {
                 throw new NullReferenceException("brak pilek");
             }
-            if (_Balls.Count == 0)
-            {
-                throw new NullReferenceException("brak pilek");
-            }
+           
 
             modelApi.TaskRun();
            
