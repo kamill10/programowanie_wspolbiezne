@@ -70,6 +70,5 @@ namespace Logic
             _tasks.Clear();
         }
 
-
     }
 }
