@@ -25,8 +25,8 @@ namespace Presentation.ViewModel
         public ICommand ExitClick { get; set; }
         private int _ballsAmount;
         public System.Collections.Generic.IList<Balls> _Balls { get; set; }
-        DataAbstractApi data;
-        private ModelAbstractApi modelApi;
+        private ModelAbstractApi modelApi = ModelAbstractApi.CreateModelApi(DataAbstractApi.CreateDataApi(3,3,3));
+
 
 
         public int BallsAmount
@@ -37,9 +37,6 @@ namespace Presentation.ViewModel
                 _ballsAmount = value;
                 // Add any additional logic here when the text value is changed
                 OnPropertyChanged(nameof(BallsAmount));
-                data = DataAbstractApi.CreateDataApi(_ballsAmount, 10, 10);
-                modelApi = ModelAbstractApi.CreateModelApi(data);
-                _Balls = getBalls();
 
             }
 
@@ -56,27 +53,32 @@ namespace Presentation.ViewModel
 
         public ViewApi()
         {
+            _Balls = getBalls();
             ClickButton = new RelayCommand(OnClickButton);
             ExitClick = new RelayCommand(OnExitClick);
-            
+           
         }
 
         private void OnClickButton()
         {
             modelApi.CreateBalls();
-            if(getBalls().Count == 0)
+
+            if (modelApi.GetBalls().Count == 0)
             {
                 throw new NullReferenceException("brak pilek");
             }
-           else if (data.getBalls().Count == 0)
+            if (_Balls.Count == 0)
             {
                 throw new NullReferenceException("brak pilek");
             }
+
             modelApi.TaskRun();
+           
 
         }
         public System.Collections.Generic.IList<Balls> getBalls()
         {
+            
             return modelApi.GetBalls();
         }
 

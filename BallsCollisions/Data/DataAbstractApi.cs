@@ -10,6 +10,10 @@ namespace Data
         {
             return new DataLayer(amount,radious,mass);
         }
+        public DataAbstractApi()
+        {
+
+        }
         public abstract void generateBalls();
         public abstract ObservableCollection<Balls> getBalls();
 
@@ -28,7 +32,7 @@ namespace Data
             this._amount = amount;
             this._ballradious = radious;
             this._ballmass = mass;
-            board = new Board(_amount);
+            board = new Board();
         }
 
         public override void generateBalls()

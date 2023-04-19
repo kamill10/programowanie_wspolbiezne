@@ -10,12 +10,7 @@ namespace Logic
         public static int _boardHeight = V;
         public static int _boardWidth = V1;
         private ObservableCollection<Balls> _balls = new();
-        private int _ballsnumber;
-
-        public Board(int ballsnumber)
-        {
-            _ballsnumber = ballsnumber;
-        }
+        
         public Board()
         {
 

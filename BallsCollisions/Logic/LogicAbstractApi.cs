@@ -45,6 +45,7 @@ namespace Logic
             {
                 Thread thread = new Thread(() =>
                 {
+                   
                     while (!isCancelled)
                     {
                         ball.ChangePosition();
@@ -53,6 +54,7 @@ namespace Logic
                 });
                 thread.Start();
                 _tasks.Add(thread);
+                
             }
         
 
