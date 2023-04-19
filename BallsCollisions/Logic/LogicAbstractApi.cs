@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using Data;
+﻿using Data;
 
 namespace Logic
 {
