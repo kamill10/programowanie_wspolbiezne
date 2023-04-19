@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using System.Threading;
 using Data;
+using Microsoft.VisualBasic;
 
 namespace Logic
 {
@@ -12,18 +13,17 @@ namespace Logic
             return new LogicApi(data);
         }
       
-        public abstract void TaskRun(Board board);
-        public abstract void TaskStop(Board board);
+        public abstract void TaskRun();
+        public abstract void TaskStop();
     }
     public class LogicApi : LogicAbstractApi
     {
         private List<Thread> _tasks = new List<Thread>();
         private CancellationToken _cancelToken;
         DataAbstractApi data;
+        private bool isCancelled = false;
 
-        public LogicApi()
-        {
-        }
+   
 
         public LogicApi(DataAbstractApi data)
         {
@@ -33,32 +33,40 @@ namespace Logic
         public CancellationToken CancellationToken => _cancelToken;
 
 
-         public async  override void TaskRun(Board board)
-          {
+        public override void TaskRun()
+        {
+            isCancelled = false ;
+            if(data.getBalls().Count == 0)
+            {
+                throw new ArgumentNullException("brak pilek w logic");
+            }
             //So we must get allBalls from Board and Update their position using Tasks
-            foreach (var ball in board.Balls)
+            foreach (var ball in data.getBalls())
             {
                 Thread thread = new Thread(() =>
                 {
-                    while (true)
+                    while (!isCancelled)
                     {
-                        Thread.Sleep(10);
-                        if (_cancelToken.IsCancellationRequested)
-                        {
-                            break;
-                        }
                         ball.ChangePosition();
+                        Thread.Sleep(10);
                     }
                 });
                 thread.Start();
                 _tasks.Add(thread);
             }
+        
+
         }
 
     
-        public override void TaskStop(Board board)
+        public override void TaskStop()
         {
-            board.Balls.Clear();
+            isCancelled = true;
+            data.getBalls().Clear();
+            foreach (Thread thread in _tasks)
+            {
+                thread.Join();
+            }
             _tasks.Clear();
         }
 

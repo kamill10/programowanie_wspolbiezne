@@ -10,11 +10,17 @@ namespace Logic
         private Vector2 _position;
         private int _speed = 1000;
         private float _radious;
-  
+        private float _mass;
 
         public int Speed
         {
             get => _speed; set => Speed = value;
+        }
+
+        public Balls(float radious,float mass)
+        {
+            _radious = radious;
+            _mass = mass;
         }
 
         public Balls(Vector2 position, float radious)

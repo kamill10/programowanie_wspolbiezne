@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using Data;
 using Logic;
 
 namespace Presentation.Model
@@ -7,11 +9,11 @@ namespace Presentation.Model
     {
 
 
-        public static ModelApi CreateModelApi( )
+        public static ModelApi CreateModelApi(DataAbstractApi data )
         {
-            return new ModelApi();
+            return new ModelApi( data);
         }
-        public abstract void CreateBalls(int amount);
+        public abstract void CreateBalls();
         public abstract void TaskRun();
         public abstract void TaskStop();
         public abstract ObservableCollection<Balls> GetBalls();
@@ -20,31 +22,38 @@ namespace Presentation.Model
     }
     public class ModelApi : ModelAbstractApi
     {
-        LogicAbstractApi logicApi = new LogicApi();
-       public  ModelApi()
+
+        private DataAbstractApi _data;
+        private LogicAbstractApi logicApi;
+       public  ModelApi(DataAbstractApi data)
         {
+            _data = data;
+            logicApi = LogicAbstractApi.CreateLogicAPI(_data);
         }
-        Board board = new();
 
 
-        public override void CreateBalls(int amount)
+        public override void CreateBalls()
         {
-            board.GenerateBalls(amount);
+            _data.generateBalls();
         }
 
         public override ObservableCollection<Balls> GetBalls()
         {
-            return board.Balls;
+            return _data.getBalls();
         }
 
         public override void TaskRun()
         {
-            logicApi.TaskRun(board);
+            if(_data.getBalls().Count == 0)
+            {
+                throw new NullReferenceException("brak pilek w model");
+            }
+            logicApi.TaskRun();
         }
 
         public override void TaskStop()
         {
-            logicApi.TaskStop(board);
+            logicApi.TaskStop();
         }
 
     }

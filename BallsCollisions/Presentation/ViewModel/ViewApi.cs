@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
@@ -7,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Data;
 using Logic;
 using Presentation.Model;
 
@@ -22,13 +24,14 @@ namespace Presentation.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        readonly ModelAbstractApi modelApi = ModelAbstractApi.CreateModelApi();
         public ICommand ClickButton { get; set; }
         public ICommand ExitClick { get; set; }
         private int _ballsAmount;
         public System.Collections.Generic.IList<Balls> _Balls { get; set; }
+        DataAbstractApi data;
+        private ModelAbstractApi modelApi;
 
-       
+
         public int BallsAmount
         {
             get => _ballsAmount;
@@ -37,7 +40,12 @@ namespace Presentation.ViewModel
                 _ballsAmount = value;
                 // Add any additional logic here when the text value is changed
                 OnPropertyChanged(nameof(BallsAmount));
+                data = DataAbstractApi.CreateDataApi(_ballsAmount, 10, 10);
+                modelApi = ModelAbstractApi.CreateModelApi(data);
+                _Balls = getBalls();
+
             }
+
         }
         public System.Collections.Generic.IList<Balls> Balls
         {
@@ -53,12 +61,20 @@ namespace Presentation.ViewModel
         {
             ClickButton = new RelayCommand(OnClickButton);
             ExitClick = new RelayCommand(OnExitClick);
-            _Balls = getBalls();
+            
         }
 
         private void OnClickButton()
         {
-            modelApi.CreateBalls(_ballsAmount);
+            modelApi.CreateBalls();
+            if(getBalls().Count == 0)
+            {
+                throw new NullReferenceException("brak pilek");
+            }
+           else if (data.getBalls().Count == 0)
+            {
+                throw new NullReferenceException("brak pilek");
+            }
             modelApi.TaskRun();
 
         }
