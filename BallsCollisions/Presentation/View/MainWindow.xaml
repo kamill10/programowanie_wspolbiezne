@@ -15,7 +15,7 @@
             <ItemsControl ItemsSource="{Binding _Balls}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Ellipse Width="10" Height="10" Fill="Blue" Stroke="Black" StrokeThickness="2">
+                        <Ellipse Width="{Binding Radious}" Height="{Binding Radious}" Fill="Maroon" Stroke="Black" StrokeThickness="2">
                             <Ellipse.RenderTransform>
                                 <TranslateTransform X="{Binding X}" Y="{Binding Y}" />
                             </Ellipse.RenderTransform>

@@ -11,7 +11,7 @@ namespace LogicTest.UnitTest
         [SetUp]
         public void Setup()
         {
-            api = LogicAbstractApi.CreateLogicAPI(DataAbstractApi.CreateDataApi(5,4));
+            api = LogicAbstractApi.CreateLogicAPI(DataAbstractApi.CreateDataApi(5,4,3));
 
         }
 

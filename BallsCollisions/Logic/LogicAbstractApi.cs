@@ -40,23 +40,37 @@ namespace Logic
             {
                 throw new ArgumentNullException("brak pilek w logic");
             }
-            //So we must get allBalls from Board and Update their position using Tasks
-            foreach (var ball in data.getBalls())
+            lock (data)
             {
-                Thread thread = new Thread(() =>
+                foreach (var ball in data.getBalls())
                 {
-                   
-                    while (!isCancelled)
+                    Thread thread = new Thread(() =>
                     {
-                        ball.ChangePosition();
-                        Thread.Sleep(10);
-                    }
-                });
-                thread.Start();
-                _tasks.Add(thread);
-                
+
+                        while (!isCancelled)
+                        {
+                            Balls colided = BallService.CheckCollisions(ball, data.getBalls());
+                            if (colided != null)
+                            {
+                                BallService.HandleColide(colided, ball);
+
+                            }
+
+                            ball.ChangePosition();
+                            Thread.Sleep(10);
+                        }
+
+
+                    });
+                    thread.Start();
+                    _tasks.Add(thread);
+
+                }
+
+
+
             }
-        
+            //So we must get allBalls from Board and Update their position using Tasks
 
         }
 

@@ -25,7 +25,8 @@ namespace Presentation.ViewModel
         public ICommand ExitClick { get; set; }
         private int _ballsAmount;
         public System.Collections.Generic.IList<Balls> _Balls { get; set; }
-        private ModelAbstractApi modelApi = ModelAbstractApi.CreateModelApi(DataAbstractApi.CreateDataApi(3,3));
+        Random random = new Random();
+        private ModelAbstractApi modelApi;
 
 
 
@@ -53,6 +54,8 @@ namespace Presentation.ViewModel
 
         public ViewApi()
         {
+            int rnd = random.Next(5, 20);
+            modelApi = ModelAbstractApi.CreateModelApi(DataAbstractApi.CreateDataApi(15, 3, 1000));
             _Balls = getBalls();
             ClickButton = new RelayCommand(OnClickButton);
             ExitClick = new RelayCommand(OnExitClick);

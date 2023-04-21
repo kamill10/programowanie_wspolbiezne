@@ -1,26 +1,34 @@
 ﻿using System.ComponentModel;
 using System.Numerics;
 using System.Runtime.CompilerServices;
+using Data;
 
-namespace Logic
+namespace Data
 {
     public class Balls : INotifyPropertyChanged
     {
         private Vector2 _valocity;
         private Vector2 _position;
-        private int _speed = 1000;
+        private float _speed;
         private float _radious;
         private float _mass;
 
-        public int Speed
+        public float Speed
         {
-            get => _speed; set => Speed = value;
+            get => _speed; set => _speed = value;
         }
 
-        public Balls(float radious,float mass)
+        /*public Balls(float radious,float mass)
         {
             _radious = radious;
             _mass = mass;
+            _speed = 1500;
+        } */
+        public Balls(float speed, float radious, float mass)
+        {
+            _radious = radious;
+            _mass = mass;
+            _speed = speed;
         }
 
         public Balls(Vector2 position, float radious)
@@ -28,12 +36,6 @@ namespace Logic
             _position = position;
             _radious = radious;
         }
-        public Balls(float radious)
-        {
-            _radious = radious;
-        }
-
-        public Balls() { }
 
         public Vector2 Position
         {
@@ -45,15 +47,24 @@ namespace Logic
             get => _radious;
             set => _radious = value;
         }
+
+        public float Mass
+        {
+            get => _mass;
+            set => _mass = value;
+        }
+
+       
         public float X
         {
             get { return _position.X; }
-            set => X = value;
+            set => _position.X = value;
+
         }
         public float Y
         {
             get { return _position.Y; }
-            set=>Y=value;
+            set=>_position.Y =value;
         }
         public Vector2 Valocity
         {
@@ -66,19 +77,19 @@ namespace Logic
         public void ChangePosition()
         {
             Position += new Vector2(_valocity.X * _speed, _valocity.Y * _speed);
-            if (_position.X < _radious/2|| _position.X > Board._boardWidth - _radious/2)
+            if (_position.X < _radious - 15|| _position.X > Board._boardWidth - _radious)
             {
                 _valocity.X = -_valocity.X;
             }
-            if (_position.Y < _radious/2 || _position.Y > Board._boardHeight - _radious/2)
+            if (_position.Y < _radious - 15|| _position.Y > Board._boardHeight - _radious)
             {
                 _valocity.Y = -_valocity.Y;
             }
             RaisePropertyChanged(nameof(X));
             RaisePropertyChanged(nameof(Y));
-
         }
 
+        
 
         protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 
 
-namespace Logic
+namespace Data
 {
     public class Board
     {
@@ -27,12 +27,12 @@ namespace Logic
         {
             get => _balls;
         }
-        public void GenerateBalls(int amount,float radious,float mass)
+        public void GenerateBalls(int amount, float radious, float mass,float v)
         {
             Random random = new Random();
             for (int i = 0; i < amount; i++)
             {
-                Balls ball = new(radious,mass)
+                Balls ball = new(v,radious,mass)
                 {
                     Position = new System.Numerics.Vector2(random.Next(10, BoardWidth - 15), random.Next(10, BoardHeight - 15)),
                     Valocity = new System.Numerics.Vector2((float)0.003, (float)0.003)
