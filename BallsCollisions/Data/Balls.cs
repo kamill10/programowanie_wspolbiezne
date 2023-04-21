@@ -66,11 +66,11 @@ namespace Logic
         public void ChangePosition()
         {
             Position += new Vector2(_valocity.X * _speed, _valocity.Y * _speed);
-            if (_position.X < _radious-10|| _position.X > Board._boardWidth - _radious)
+            if (_position.X < _radious/2|| _position.X > Board._boardWidth - _radious/2)
             {
                 _valocity.X = -_valocity.X;
             }
-            if (_position.Y < _radious || _position.Y > Board._boardHeight - _radious)
+            if (_position.Y < _radious/2 || _position.Y > Board._boardHeight - _radious/2)
             {
                 _valocity.Y = -_valocity.Y;
             }
