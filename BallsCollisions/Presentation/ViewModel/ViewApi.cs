@@ -25,7 +25,7 @@ namespace Presentation.ViewModel
         public ICommand ExitClick { get; set; }
         private int _ballsAmount;
         public System.Collections.Generic.IList<Balls> _Balls { get; set; }
-        private ModelAbstractApi modelApi = ModelAbstractApi.CreateModelApi(DataAbstractApi.CreateDataApi(3,3));
+        private ModelAbstractApi modelApi = ModelAbstractApi.CreateModelApi(DataAbstractApi.CreateDataApi(15,3));
 
 
 

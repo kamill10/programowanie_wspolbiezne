@@ -27,7 +27,7 @@ namespace Logic
         {
             get => _balls;
         }
-        public void GenerateBalls(int amount,float radious,float mass)
+        public void GenerateBalls(int amount, float radious, float mass)
         {
             Random random = new Random();
             for (int i = 0; i < amount; i++)
