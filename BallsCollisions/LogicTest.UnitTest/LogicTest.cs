@@ -21,11 +21,11 @@ namespace LogicTest.UnitTest
         [Test]
         public void CreateBallsTest()
         {
-            int _amount = 5;
+            int _amount = 10;
             int _radius = 25;
             api.TaskRun();
             Console.WriteLine(api.getBalls().Count);
-            Assert.IsTrue(api.getBalls().Count == 10);
+            Assert.That(_amount, Is.EqualTo(api.getBalls().Count));
 
             foreach (Balls ball in data.getBalls())
             {
