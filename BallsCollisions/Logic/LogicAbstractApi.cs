@@ -1,4 +1,5 @@
-﻿using System.Numerics;
+﻿using System.Collections.ObjectModel;
+using System.Numerics;
 using System.Threading;
 using Data;
 using Microsoft.VisualBasic;
@@ -15,6 +16,7 @@ namespace Logic
       
         public abstract void TaskRun();
         public abstract void TaskStop();
+        public abstract  ObservableCollection<Balls> getBalls();
     }
     public class LogicApi : LogicAbstractApi
     {
@@ -32,6 +34,10 @@ namespace Logic
 
         public CancellationToken CancellationToken => _cancelToken;
 
+        public override ObservableCollection<Balls> getBalls()
+        {
+            return data.getBalls();
+        }
 
         public override void TaskRun()
         {
