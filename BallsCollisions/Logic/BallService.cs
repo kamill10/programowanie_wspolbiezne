@@ -61,8 +61,8 @@ namespace Logic
             ballOne.Valocity = newVelocityOne;
             ballTwo.Valocity = newVelocityTwo;
 
-            ballOne.Speed = (((ballOne.Mass - ballTwo.Mass) / (ballOne.Mass + ballTwo.Mass) * ballOne.Speed) + (2 * ballTwo.Mass / (ballOne.Mass + ballTwo.Mass) * ballTwo.Speed));
-            ballTwo.Speed = (((ballTwo.Mass - ballOne.Mass) / (ballOne.Mass + ballTwo.Mass) * ballTwo.Speed) + (2 * ballOne.Mass / (ballOne.Mass + ballTwo.Mass) * ballOne.Speed));
+            //ballOne.Speed = (((ballOne.Mass - ballTwo.Mass) / (ballOne.Mass + ballTwo.Mass) * ballOne.Speed) + (2 * ballTwo.Mass / (ballOne.Mass + ballTwo.Mass) * ballTwo.Speed));
+            //ballTwo.Speed = (((ballTwo.Mass - ballOne.Mass) / (ballOne.Mass + ballTwo.Mass) * ballTwo.Speed) + (2 * ballOne.Mass / (ballOne.Mass + ballTwo.Mass) * ballOne.Speed));
         }
 
       
