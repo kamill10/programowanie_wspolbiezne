@@ -18,12 +18,6 @@ namespace Data
             get => _speed; set => _speed = value;
         }
 
-        /*public Balls(float radious,float mass)
-        {
-            _radious = radious;
-            _mass = mass;
-            _speed = 1500;
-        } */
         public Balls(float speed, float radious, float mass)
         {
             _radious = radious;

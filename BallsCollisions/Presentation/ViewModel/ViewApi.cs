@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Shapes;
 using Data;
 using Logic;
 using Presentation.Model;
@@ -36,8 +33,6 @@ namespace Presentation.ViewModel
             set
             {
                 _ballsAmount = value;
-                // Add any additional logic here when the text value is changed
-                OnPropertyChanged(nameof(BallsAmount));
 
             }
 
@@ -48,7 +43,6 @@ namespace Presentation.ViewModel
             set
             {
                 _Balls = value;
-                OnPropertyChanged(nameof(_Balls));
             }
         }
 
