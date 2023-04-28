@@ -71,17 +71,34 @@ namespace Data
         public async Task ChangePosition()
         {
             Position += new Vector2(_valocity.X * _speed, _valocity.Y * _speed);
-            if (_position.X +5  <= 0  || _position.X >= Board._boardWidth - _radious)
+            if (_position.X + 5 <= 0)
             {
                 _valocity = new Vector2(-Valocity.X, Valocity.Y);
+                X += _valocity.X * _speed;
             }
-            if (_position.Y +5  <= 0 || _position.Y >= Board._boardHeight - _radious)
+            if (_position.X >= Board._boardWidth - _radious)
             {
-                _valocity = new Vector2(Valocity.X,-Valocity.Y);
+                _valocity = new Vector2(-Valocity.X, Valocity.Y);
+                X += _valocity.X * _speed;
             }
+            if (_position.Y + 5 <= 0)
+            {
+                _valocity = new Vector2(Valocity.X, -Valocity.Y);
+                Y += _valocity.Y * _speed;
+            }
+            if ( _position.Y >= Board._boardHeight - _radious)
+            {
+                _valocity = new Vector2(Valocity.X, -Valocity.Y);
+                Y += _valocity.Y * _speed;
+            }
+
+
+
+
+
             RaisePropertyChanged(nameof(X));
             RaisePropertyChanged(nameof(Y));
-            await Task.Delay(10);
+            await Task.Delay(7);
         }
 
         

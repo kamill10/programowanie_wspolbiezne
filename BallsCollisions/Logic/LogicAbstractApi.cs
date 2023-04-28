@@ -56,7 +56,7 @@ namespace Logic
                             await ball.ChangePosition();
                             lock (data)
                             {
-                                //BallService.Collide(ball, data.getBalls());
+                                BallService.Collide(ball, data.getBalls());
                             }
                         }
                     });
