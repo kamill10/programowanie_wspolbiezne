@@ -20,7 +20,7 @@ namespace Logic
     }
     public class LogicApi : LogicAbstractApi
     {
-        private List<Thread> _tasks = new List<Thread>();
+        private List<Task> _tasks = new List<Task>();
         private CancellationToken _cancelToken;
         DataAbstractApi data;
         private bool isCancelled = false;
@@ -46,37 +46,23 @@ namespace Logic
             {
                 throw new ArgumentNullException("brak pilek w logic");
             }
-            lock (data)
-            {
                 foreach (var ball in data.getBalls())
                 {
-                    Thread thread = new Thread(() =>
+                   Task task= new Task(async () =>
                     {
 
                         while (!isCancelled)
                         {
-                            Balls colided = BallService.CheckCollisions(ball, data.getBalls());
-                            if (colided != null)
+                            await ball.ChangePosition();
+                            lock (data)
                             {
-                                BallService.HandleColide(colided, ball);
-
+                                BallService.Collide(ball, data.getBalls());
                             }
-
-                            ball.ChangePosition();
-                            Thread.Sleep(10);
                         }
-
-
                     });
-                    thread.Start();
-                    _tasks.Add(thread);
-
+                task.Start();
+                    _tasks.Add(task);
                 }
-
-
-
-            }
-            //So we must get allBalls from Board and Update their position using Tasks
 
         }
 
@@ -85,10 +71,7 @@ namespace Logic
         {
             isCancelled = true;
             data.getBalls().Clear();
-            foreach (Thread thread in _tasks)
-            {
-                thread.Join();
-            }
+          
             _tasks.Clear();
         }
 

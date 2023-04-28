@@ -15,7 +15,7 @@
             <ItemsControl ItemsSource="{Binding _Balls}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Ellipse Width="{Binding Radious}" Height="{Binding Radious}" Fill="Maroon" Stroke="Black" StrokeThickness="2">
+                        <Ellipse Width="{Binding Radious}" Height="{Binding Radious}" Fill="OrangeRed"  Stroke="Black" StrokeThickness="2">
                             <Ellipse.RenderTransform>
                                 <TranslateTransform X="{Binding X}" Y="{Binding Y}" />
                             </Ellipse.RenderTransform>
@@ -24,7 +24,7 @@
                 </ItemsControl.ItemTemplate>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <Canvas x:Name="BallCanvas" Height="450" Width="750" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" />
+                        <Canvas x:Name="BallCanvas" Height="{Binding _boardHeight}" Width="{Binding _boardWidth}" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,0,0,0" />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
             </ItemsControl>

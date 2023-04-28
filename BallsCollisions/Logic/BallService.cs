@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Numerics;
 using Data;
@@ -9,7 +10,7 @@ namespace Logic
     public  class BallService
     {
 
-        public static Balls CheckCollisions(Balls ball, IEnumerable<Balls> ballsList)
+        private static Balls CheckCollisions(Balls ball, IEnumerable<Balls> ballsList)
         {
             foreach (Balls ballTwo in ballsList)
             {
@@ -38,7 +39,7 @@ namespace Logic
             return distance <= radiusSum;
         }
 
-        public static void HandleColide(Balls ballOne, Balls ballTwo)
+        private static void HandleColide(Balls ballOne, Balls ballTwo)
         {
             
             Vector2 centerOne = ballOne.Position + (Vector2.One * ballOne.Radious / 2);
@@ -61,10 +62,20 @@ namespace Logic
             ballOne.Valocity = newVelocityOne;
             ballTwo.Valocity = newVelocityTwo;
 
-            /*ballOne.Speed = (((ballOne.Mass - ballTwo.Mass) / (ballOne.Mass + ballTwo.Mass) * ballOne.Speed) + (2 * ballTwo.Mass / (ballOne.Mass + ballTwo.Mass) * ballTwo.Speed));
-            ballTwo.Speed = (((ballTwo.Mass - ballOne.Mass) / (ballOne.Mass + ballTwo.Mass) * ballTwo.Speed) + (2 * ballOne.Mass / (ballOne.Mass + ballTwo.Mass) * ballOne.Speed));
-        */
+            //ballOne.Speed = (((ballOne.Mass - ballTwo.Mass) / (ballOne.Mass + ballTwo.Mass) * ballOne.Speed) + (2 * ballTwo.Mass / (ballOne.Mass + ballTwo.Mass) * ballTwo.Speed));
+            //ballTwo.Speed = (((ballTwo.Mass - ballOne.Mass) / (ballOne.Mass + ballTwo.Mass) * ballTwo.Speed) + (2 * ballOne.Mass / (ballOne.Mass + ballTwo.Mass) * ballOne.Speed));
+        
             }
+
+        public static void Collide(Balls ball,ObservableCollection<Balls>balls)
+        {
+            Balls colided = CheckCollisions(ball, balls);
+            if (colided != null)
+            {
+                HandleColide(colided, ball);
+
+            }
+        }
 
       
     }

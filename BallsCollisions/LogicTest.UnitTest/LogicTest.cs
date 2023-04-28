@@ -25,14 +25,14 @@ namespace LogicTest.UnitTest
             int _radius = 25;
             api.TaskRun();
             Console.WriteLine(api.getBalls().Count);
-            Assert.That(_amount, Is.EqualTo(api.getBalls().Count));
+            Assert.That(api.getBalls().Count, Is.EqualTo(_amount));
 
             foreach (Balls ball in data.getBalls())
             {
                 Assert.IsTrue(ball.Position.X >= 1);
-                Assert.IsTrue(ball.Position.X <= 750 - _radius);
+                Assert.IsTrue(ball.Position.X <= 750-_radius  );
                 Assert.IsTrue(ball.Position.Y >= 1);
-                Assert.IsTrue(ball.Position.Y <= 450 - _radius);
+                Assert.IsTrue(ball.Position.Y <= 450-_radius );
             }
 
         }

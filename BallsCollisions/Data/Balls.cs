@@ -68,19 +68,20 @@ namespace Data
         }
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void ChangePosition()
+        public async Task ChangePosition()
         {
             Position += new Vector2(_valocity.X * _speed, _valocity.Y * _speed);
-            if (_position.X < _radious - 15|| _position.X > Board._boardWidth - _radious)
+            if (_position.X +5  <= 0  || _position.X >= Board._boardWidth - _radious)
             {
-                _valocity.X = -_valocity.X;
+                _valocity = new Vector2(-Valocity.X, Valocity.Y);
             }
-            if (_position.Y < _radious - 15|| _position.Y > Board._boardHeight - _radious)
+            if (_position.Y +5  <= 0 || _position.Y >= Board._boardHeight - _radious)
             {
-                _valocity.Y = -_valocity.Y;
+                _valocity = new Vector2(Valocity.X,-Valocity.Y);
             }
             RaisePropertyChanged(nameof(X));
             RaisePropertyChanged(nameof(Y));
+            await Task.Delay(10);
         }
 
         
@@ -93,6 +94,8 @@ namespace Data
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+
 
     }
 
