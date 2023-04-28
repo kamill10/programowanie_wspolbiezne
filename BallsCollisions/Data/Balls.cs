@@ -74,31 +74,31 @@ namespace Data
             if (_position.X + 5 <= 0)
             {
                 _valocity = new Vector2(-Valocity.X, Valocity.Y);
-                X += _valocity.X * _speed;
+                 X += 5*_valocity.X * _speed;
+               // X += _radious;
             }
             if (_position.X >= Board._boardWidth - _radious)
             {
                 _valocity = new Vector2(-Valocity.X, Valocity.Y);
-                X += _valocity.X * _speed;
+                X += 5*_valocity.X * _speed;
+                //X -= _radious;
             }
             if (_position.Y + 5 <= 0)
             {
                 _valocity = new Vector2(Valocity.X, -Valocity.Y);
-                Y += _valocity.Y * _speed;
+                Y += 5*_valocity.Y * _speed;
+                //Y += _radious;
             }
             if ( _position.Y >= Board._boardHeight - _radious)
             {
                 _valocity = new Vector2(Valocity.X, -Valocity.Y);
-                Y += _valocity.Y * _speed;
+                 Y +=5* _valocity.Y * _speed;
+                //Y -= _radious;
             }
-
-
-
-
 
             RaisePropertyChanged(nameof(X));
             RaisePropertyChanged(nameof(Y));
-            await Task.Delay(7);
+            await Task.Delay(5);
         }
 
         
