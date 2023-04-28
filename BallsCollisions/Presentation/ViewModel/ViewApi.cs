@@ -49,7 +49,7 @@ namespace Presentation.ViewModel
 
         public ViewApi()
         {
-            modelApi = ModelAbstractApi.CreateModelApi(DataAbstractApi.CreateDataApi(15, 3, 600));
+            modelApi = ModelAbstractApi.CreateModelApi(DataAbstractApi.CreateDataApi(15, 3, 900));
             _Balls = getBalls();
             ClickButton = new RelayCommand(OnClickButton);
             ExitClick = new RelayCommand(OnExitClick);
