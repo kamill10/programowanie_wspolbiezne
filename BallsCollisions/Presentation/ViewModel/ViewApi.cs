@@ -2,6 +2,8 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Shapes;
 using Data;
 using Logic;
 using Presentation.Model;
@@ -26,7 +28,6 @@ namespace Presentation.ViewModel
         private ModelAbstractApi modelApi;
 
 
-
         public int BallsAmount
         {
             get => _ballsAmount;
@@ -48,12 +49,12 @@ namespace Presentation.ViewModel
 
         public ViewApi()
         {
-            int rnd = random.Next(5, 20);
-            modelApi = ModelAbstractApi.CreateModelApi(DataAbstractApi.CreateDataApi(15, 3, 1000));
+            modelApi = ModelAbstractApi.CreateModelApi(DataAbstractApi.CreateDataApi(15, 3, 600));
             _Balls = getBalls();
             ClickButton = new RelayCommand(OnClickButton);
             ExitClick = new RelayCommand(OnExitClick);
-           
+
+
         }
 
         private void OnClickButton()
@@ -81,9 +82,7 @@ namespace Presentation.ViewModel
             modelApi.TaskStop();
 
         }
-       
 
-     
 
     }
 

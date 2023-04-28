@@ -44,6 +44,6 @@ namespace DataTest.UnitTest
             ball.ChangePosition();
             Assert.AreNotEqual(750, ball.Valocity.X);
             Assert.AreNotEqual(450, ball.Valocity.Y);
-        }
+            Assert.AreEqual(ball.Position, new Vector2((float)(50 + 1000 * 0.003), (float)(50 + 1000 * 0.003)));        }
     }
 }
