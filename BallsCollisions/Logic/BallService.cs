@@ -31,26 +31,52 @@ namespace Logic
 
         private static bool IsBallsCollides(Balls ballOne, Balls ballTwo)
         {
-         
 
-                Vector2 centerOne = ballOne.Position + (Vector2.One * ballOne.Radious / 2) + ballOne.Valocity * (16 / 1000f);
-            Vector2 centerTwo = ballTwo.Position + (Vector2.One * ballTwo.Radious / 2) + ballTwo.Valocity * (16 / 1000f);
 
-            float distance = Vector2.Distance(centerOne, centerTwo);
-            float radiusSum = (ballOne.Radious + ballTwo.Radious) / 2f;
+            Vector2 centerOne = ballOne.Position + (Vector2.One * ballOne.Radious / 2) + ballOne.Valocity * (16 / 1000f);
+        Vector2 centerTwo = ballTwo.Position + (Vector2.One * ballTwo.Radious / 2) + ballTwo.Valocity * (16 / 1000f);
 
-            return distance <= radiusSum; 
+        float distance = Vector2.Distance(centerOne, centerTwo);
+        float radiusSum = (ballOne.Radious + ballTwo.Radious) / 2f;
+
+        return distance <= radiusSum;  
+
+            
         }
 
         private static   void HandleColide(Balls ballOne, Balls ballTwo)
         {
-            float ballOnenewSpeedX = (ballOne.Mass - ballTwo.Mass) * ballOne.Valocity.X / (ballOne.Mass + ballTwo.Mass) + 2 * ballTwo.Mass * ballTwo.Valocity.X / (ballOne.Mass + ballTwo.Mass);
-            float ballOnenewSpeedY = (ballOne.Mass - ballTwo.Mass) * ballOne.Valocity.X / (ballOne.Mass + ballTwo.Mass) + 2 * ballTwo.Mass * ballTwo.Valocity.Y / (ballOne.Mass + ballTwo.Mass);
-            float ballTwonewSpeedX = (ballTwo.Mass - ballOne.Mass) * ballTwo.Valocity.X / (ballOne.Mass + ballTwo.Mass) + 2 * ballOne.Mass * ballOne.Valocity.X / (ballOne.Mass + ballTwo.Mass);
-            float ballTwonewSpeedY = (ballTwo.Mass - ballOne.Mass) * ballTwo.Valocity.X / (ballOne.Mass + ballTwo.Mass) + 2 * ballOne.Mass * ballOne.Valocity.Y / (ballOne.Mass + ballTwo.Mass);
-            ballOne.Valocity = new Vector2(ballOnenewSpeedX, ballOnenewSpeedY);
-            ballTwo.Valocity = new Vector2(ballTwonewSpeedX, ballTwonewSpeedY);
+            /* float ballOnenewSpeedX = (ballOne.Mass - ballTwo.Mass) * ballOne.Valocity.X / (ballOne.Mass + ballTwo.Mass) + 2 * ballTwo.Mass * ballTwo.Valocity.X / (ballOne.Mass + ballTwo.Mass);
+             float ballOnenewSpeedY = (ballOne.Mass - ballTwo.Mass) * ballOne.Valocity.X / (ballOne.Mass + ballTwo.Mass) + 2 * ballTwo.Mass * ballTwo.Valocity.Y / (ballOne.Mass + ballTwo.Mass);
+             float ballTwonewSpeedX = (ballTwo.Mass - ballOne.Mass) * ballTwo.Valocity.X / (ballOne.Mass + ballTwo.Mass) + 2 * ballOne.Mass * ballOne.Valocity.X / (ballOne.Mass + ballTwo.Mass);
+             float ballTwonewSpeedY = (ballTwo.Mass - ballOne.Mass) * ballTwo.Valocity.X / (ballOne.Mass + ballTwo.Mass) + 2 * ballOne.Mass * ballOne.Valocity.Y / (ballOne.Mass + ballTwo.Mass);
+             ballOne.Valocity = new Vector2(ballOnenewSpeedX, ballOnenewSpeedY);
+             ballTwo.Valocity = new Vector2(ballTwonewSpeedX, ballTwonewSpeedY); */
 
+            Vector2 ballOneVelocity = ballOne.Valocity;
+            Vector2 ballTwoVelocity = ballTwo.Valocity;
+            Vector2 collisionNormal = Vector2.Normalize(ballTwo.Position - ballOne.Position);
+
+            float ballOneInitialVelocityAlongNormal = Vector2.Dot(ballOneVelocity, collisionNormal);
+            float ballTwoInitialVelocityAlongNormal = Vector2.Dot(ballTwoVelocity, collisionNormal);
+
+            float ballOneInitialVelocityAlongTangent = Vector2.Dot(ballOneVelocity, GetPerpendicularVector(collisionNormal));
+            float ballTwoInitialVelocityAlongTangent = Vector2.Dot(ballTwoVelocity, GetPerpendicularVector(collisionNormal));
+
+            float ballOneFinalVelocityAlongNormal = (ballOneInitialVelocityAlongNormal * (ballOne.Mass - ballTwo.Mass) + 2 * ballTwo.Mass * ballTwoInitialVelocityAlongNormal) / (ballOne.Mass + ballTwo.Mass);
+            float ballTwoFinalVelocityAlongNormal = (ballTwoInitialVelocityAlongNormal * (ballTwo.Mass - ballOne.Mass) + 2 * ballOne.Mass * ballOneInitialVelocityAlongNormal) / (ballOne.Mass + ballTwo.Mass);
+
+            Vector2 ballOneFinalVelocity = ballOneFinalVelocityAlongNormal * collisionNormal + ballOneInitialVelocityAlongTangent * GetPerpendicularVector(collisionNormal);
+            Vector2 ballTwoFinalVelocity = ballTwoFinalVelocityAlongNormal * collisionNormal + ballTwoInitialVelocityAlongTangent * GetPerpendicularVector(collisionNormal);
+
+            ballOne.Valocity = ballOneFinalVelocity;
+            ballTwo.Valocity = ballTwoFinalVelocity;
+
+        }
+
+        private static Vector2 GetPerpendicularVector(Vector2 vector)
+        {
+            return new Vector2(-vector.Y, vector.X);
         }
 
         public static void Collide(Balls ball, ObservableCollection<Balls> balls)
@@ -60,19 +86,15 @@ namespace Logic
             {
                     HandleColide(colided, ball);            
             }
-            if (colided != null)
+           if (colided != null)
             {
-                ball.Position+= new Vector2(ball.Valocity.X * ball.Speed, ball.Valocity.Y * ball.Speed);
-                colided.Position += new Vector2(colided.Valocity.X * colided.Speed, colided.Valocity.Y * colided.Speed);
-            }
+                ball.Position+= new Vector2(2*ball.Valocity.X * ball.Speed, 2*ball.Valocity.Y * ball.Speed);
+            }  
+            
 
         }
 }
 
-    public static class Constants
-    {
-        public const float RestitutionCoefficient = 0.8f;
-    }
 
 }
 
