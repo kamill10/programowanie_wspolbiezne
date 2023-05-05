@@ -46,12 +46,7 @@ namespace Logic
 
         private static   void HandleColide(Balls ballOne, Balls ballTwo)
         {
-            /* float ballOnenewSpeedX = (ballOne.Mass - ballTwo.Mass) * ballOne.Valocity.X / (ballOne.Mass + ballTwo.Mass) + 2 * ballTwo.Mass * ballTwo.Valocity.X / (ballOne.Mass + ballTwo.Mass);
-             float ballOnenewSpeedY = (ballOne.Mass - ballTwo.Mass) * ballOne.Valocity.X / (ballOne.Mass + ballTwo.Mass) + 2 * ballTwo.Mass * ballTwo.Valocity.Y / (ballOne.Mass + ballTwo.Mass);
-             float ballTwonewSpeedX = (ballTwo.Mass - ballOne.Mass) * ballTwo.Valocity.X / (ballOne.Mass + ballTwo.Mass) + 2 * ballOne.Mass * ballOne.Valocity.X / (ballOne.Mass + ballTwo.Mass);
-             float ballTwonewSpeedY = (ballTwo.Mass - ballOne.Mass) * ballTwo.Valocity.X / (ballOne.Mass + ballTwo.Mass) + 2 * ballOne.Mass * ballOne.Valocity.Y / (ballOne.Mass + ballTwo.Mass);
-             ballOne.Valocity = new Vector2(ballOnenewSpeedX, ballOnenewSpeedY);
-             ballTwo.Valocity = new Vector2(ballTwonewSpeedX, ballTwonewSpeedY); */
+            
 
             Vector2 ballOneVelocity = ballOne.Valocity;
             Vector2 ballTwoVelocity = ballTwo.Valocity;
