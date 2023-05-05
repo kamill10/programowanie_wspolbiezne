@@ -24,7 +24,6 @@ namespace LogicTest.UnitTest
             int _amount = 10;
             int _radius = 25;
             api.TaskRun();
-            Console.WriteLine(api.getBalls().Count);
             Assert.That(api.getBalls().Count, Is.EqualTo(_amount));
 
             foreach (Balls ball in data.getBalls())
