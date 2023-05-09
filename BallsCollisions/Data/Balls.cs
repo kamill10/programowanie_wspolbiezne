@@ -67,6 +67,7 @@ namespace Data
 
         }
         public event PropertyChangedEventHandler? PropertyChanged;
+        private readonly object _lockObj = new object();
 
         public async Task ChangePosition()
         {
@@ -74,34 +75,34 @@ namespace Data
             if (_position.X + 5 <= 0)
             {
                 _valocity = new Vector2(-Valocity.X, Valocity.Y);
-                 X += 4*_valocity.X * _speed;
-               // X += _radious;
+                X += 4 * _valocity.X * _speed;
             }
             if (_position.X >= Board._boardWidth - _radious)
             {
                 _valocity = new Vector2(-Valocity.X, Valocity.Y);
-                X += 4*_valocity.X * _speed;
-                //X -= _radious;
+                X += 4 * _valocity.X * _speed;
             }
             if (_position.Y + 5 <= 0)
             {
                 _valocity = new Vector2(Valocity.X, -Valocity.Y);
-                Y += 4*_valocity.Y * _speed;
-                //Y += _radious;
+                Y += 4 * _valocity.Y * _speed;
             }
-            if ( _position.Y >= Board._boardHeight - _radious)
+            if (_position.Y >= Board._boardHeight - _radious)
             {
                 _valocity = new Vector2(Valocity.X, -Valocity.Y);
-                 Y +=4* _valocity.Y * _speed;
-                //Y -= _radious;
+                Y += 4 * _valocity.Y * _speed;
             }
 
-            RaisePropertyChanged(nameof(X));
-            RaisePropertyChanged(nameof(Y));
+            lock (_lockObj)
+            {
+                RaisePropertyChanged(nameof(X));
+                RaisePropertyChanged(nameof(Y));
+            }
+
             await Task.Delay(4);
         }
 
-        
+
 
         protected virtual void RaisePropertyChanged([CallerMemberName] string propertyName = null)
         {
