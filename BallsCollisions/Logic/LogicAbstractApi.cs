@@ -14,7 +14,7 @@ namespace Logic
             return new LogicApi(data);
         }
       
-        public abstract void TaskRun();
+        public abstract Task TaskRun();
         public abstract void TaskStop();
         public abstract  ObservableCollection<Balls> getBalls();
     }
@@ -39,35 +39,36 @@ namespace Logic
             return data.getBalls();
         }
 
-        public override void TaskRun()
+        public override async Task TaskRun()
         {
-            isCancelled = false ;
-            if(data.getBalls().Count == 0)
+            isCancelled = false;
+            if (data.getBalls().Count == 0)
             {
                 throw new ArgumentNullException("brak pilek w logic");
             }
-                foreach (var ball in data.getBalls())
+
+            foreach (var ball in data.getBalls())
+            {
+                _ = Task.Run(async () =>
                 {
-                   Task task= new Task(async () =>
+                    while (!isCancelled)
                     {
-
-                        while (!isCancelled)
+                        await ball.ChangePosition();
+                        lock (data)
                         {
-                            await ball.ChangePosition();
-                            lock (data)
-                            {
-                                BallService.Collide(ball, data.getBalls());
-                            } 
+                            BallService.Collide(ball, data.getBalls());
                         }
-                        logger.EnqueueToLoggingQueue(ball);
-                    });
-                task.Start();
-                    _tasks.Add(task);
-                }
 
+                        logger.EnqueueToLoggingQueue(ball);
+
+                        // Poczekaj przez pewien okres czasu przed następną iteracją pętli
+                        await Task.Delay(4); // Możesz dostosować czas oczekiwania według potrzeb
+                    }
+                });
+            }
         }
 
-    
+
         public override void TaskStop()
         {
             isCancelled = true;

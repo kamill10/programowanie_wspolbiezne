@@ -72,7 +72,7 @@ namespace Data
         }
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public async Task ChangePosition()
+        public async   Task  ChangePosition()
         {
             Position += new Vector2(_valocity.X * _speed, _valocity.Y * _speed);
             if (_position.X + 5 <= 0)
@@ -101,7 +101,6 @@ namespace Data
                 RaisePropertyChanged(nameof(Y));
 
 
-            await Task.Delay(4);
         }
 
 
