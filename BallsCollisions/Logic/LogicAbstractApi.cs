@@ -24,7 +24,7 @@ namespace Logic
         private CancellationToken _cancelToken;
         DataAbstractApi data;
         private bool isCancelled = false;
-
+        private AbstractBallsLogger logger = new BallsLogger();
    
 
         public LogicApi(DataAbstractApi data)
@@ -57,8 +57,9 @@ namespace Logic
                             lock (data)
                             {
                                 BallService.Collide(ball, data.getBalls());
-                            }
+                            } 
                         }
+                        logger.EnqueueToLoggingQueue(ball);
                     });
                 task.Start();
                     _tasks.Add(task);

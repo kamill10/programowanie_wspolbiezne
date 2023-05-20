@@ -12,6 +12,9 @@ namespace Data
         private float _speed;
         private float _radious;
         private float _mass;
+        private AbstractBallsLogger logger = new BallsLogger();
+
+        public Guid _id { get; set; }
 
         public float Speed
         {
@@ -20,6 +23,7 @@ namespace Data
         
         public Balls(float speed, float radious, float mass)
         {
+            _id = Guid.NewGuid();
             _radious = radious;
             _mass = mass;
             _speed = speed;
@@ -67,7 +71,6 @@ namespace Data
 
         }
         public event PropertyChangedEventHandler? PropertyChanged;
-        private readonly object _lockObj = new object();
 
         public async Task ChangePosition()
         {
@@ -93,11 +96,10 @@ namespace Data
                 Y += 4 * _valocity.Y * _speed;
             }
 
-            lock (_lockObj)
-            {
+         
                 RaisePropertyChanged(nameof(X));
                 RaisePropertyChanged(nameof(Y));
-            }
+
 
             await Task.Delay(4);
         }
