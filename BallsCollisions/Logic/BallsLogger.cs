@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.IO;
 using System.Threading;
 using System.Timers;
-using Data;
+using Logic;
 using Newtonsoft.Json.Linq;
 
-
-namespace Logic
+namespace Data
 {
     public class BallsLogger : AbstractBallsLogger, IDisposable
     {
         private string _path;
-        private ConcurrentQueue<JObject> loggingQueue = new ConcurrentQueue<JObject>();
-        private readonly JArray _logArray;
+        private readonly JObject _logObject;
         private readonly Mutex _fileMutex = new Mutex();
         private System.Timers.Timer _writeTimer;
 
@@ -21,7 +18,8 @@ namespace Logic
         {
             string tempPath = Path.GetTempPath();
             _path = Path.Combine(tempPath, "BallsLog.json");
-            _logArray = new JArray();
+            _logObject = new JObject();
+            _logObject["Balls"] = new JArray(); 
             if (!File.Exists(_path))
             {
                 FileStream myFile = File.Create(_path);
@@ -34,10 +32,25 @@ namespace Logic
             _writeTimer.Start();
         }
 
-        public void EnqueueToLoggingQueue(Balls ball)
+        public void Logging(Balls ball)
         {
             JObject ballJson = ConvertBallToJson(ball);
-            loggingQueue.Enqueue(ballJson);
+            ballJson["Time"] = DateTime.Now.ToString("HH:mm:ss");
+
+            _fileMutex.WaitOne();
+            try
+            {
+                ((JArray)_logObject["Balls"]).Add(ballJson); 
+                File.WriteAllText(_path, _logObject.ToString());
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine("Error writing to the log file: " + ex.Message);
+            }
+            finally
+            {
+                _fileMutex.ReleaseMutex();
+            }
         }
 
         private void WriteTimerElapsed(object sender, ElapsedEventArgs e)
@@ -45,14 +58,7 @@ namespace Logic
             _fileMutex.WaitOne();
             try
             {
-                while (loggingQueue.TryDequeue(out JObject ballJson))
-                {
-                    ballJson["Time"] = DateTime.Now.ToString("HH:mm:ss");
-
-                    _logArray.Add(ballJson);
-                }
-
-                File.WriteAllText(_path, _logArray.ToString());
+                File.WriteAllText(_path, _logObject.ToString());
             }
             catch (IOException ex)
             {
@@ -66,15 +72,18 @@ namespace Logic
 
         private JObject ConvertBallToJson(Balls ball)
         {
+
             JObject ballJson = JObject.FromObject(ball);
             return ballJson;
         }
 
         public void Dispose()
         {
-            _writeTimer.Stop(); 
-            _writeTimer.Dispose();
+            _writeTimer.Stop();
+            _writeTimer.Dispose(); 
         }
     }
 }
+
+
 

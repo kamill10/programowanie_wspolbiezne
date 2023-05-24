@@ -9,6 +9,6 @@ namespace Logic
 {
     public interface AbstractBallsLogger
     {
-        public void EnqueueToLoggingQueue(Balls ball);
+        public void Logging(Balls ball);
     }
 }

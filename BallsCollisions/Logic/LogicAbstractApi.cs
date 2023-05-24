@@ -59,7 +59,7 @@ namespace Logic
                             BallService.Collide(ball, data.getBalls());
                         }
 
-                        logger.EnqueueToLoggingQueue(ball);
+                        logger.Logging(ball);
 
                         // Poczekaj przez pewien okres czasu przed następną iteracją pętli
                         await Task.Delay(4); // Możesz dostosować czas oczekiwania według potrzeb
