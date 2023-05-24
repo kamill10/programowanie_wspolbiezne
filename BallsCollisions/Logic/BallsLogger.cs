@@ -1,68 +1,64 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using Newtonsoft.Json;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
-using Newtonsoft.Json.Linq;
 using System.IO;
-using System.Linq.Expressions;
+using System.Threading;
+using System.Timers;
+using Newtonsoft.Json.Linq;
 
 namespace Data
 {
-    public class BallsLogger : AbstractBallsLogger
+    public class BallsLogger : AbstractBallsLogger, IDisposable
     {
         private string _path;
         private ConcurrentQueue<JObject> loggingQueue = new ConcurrentQueue<JObject>();
-        private Mutex mutex = new Mutex();
         private readonly JArray _logArray;
-        private readonly Mutex _ballsMutex = new Mutex();
         private readonly Mutex _fileMutex = new Mutex();
+        private System.Timers.Timer _writeTimer;
 
         public BallsLogger()
         {
             string tempPath = Path.GetTempPath();
-            _path = tempPath + "BallsLog.json";
+            _path = Path.Combine(tempPath, "BallsLog.json");
             _logArray = new JArray();
             if (!File.Exists(_path))
             {
                 FileStream myFile = File.Create(_path);
                 myFile.Close();
-            }     
+            }
+
+            _writeTimer = new System.Timers.Timer();
+            _writeTimer.Interval = 1000; // Zapisuj co sekundę
+            _writeTimer.Elapsed += WriteTimerElapsed;
+            _writeTimer.Start();
         }
 
         public void EnqueueToLoggingQueue(Balls ball)
         {
             JObject ballJson = ConvertBallToJson(ball);
             loggingQueue.Enqueue(ballJson);
-            ProcessLoggingQueue();
         }
 
-        private void ProcessLoggingQueue()
+        private void WriteTimerElapsed(object sender, ElapsedEventArgs e)
         {
-            while (loggingQueue.TryDequeue(out JObject ballJson))
+            _fileMutex.WaitOne();
+            try
             {
-                _ballsMutex.WaitOne();
-                _fileMutex.WaitOne();
-                try
-                {                   
+                while (loggingQueue.TryDequeue(out JObject ballJson))
+                {
                     ballJson["Time"] = DateTime.Now.ToString("HH:mm:ss");
 
                     _logArray.Add(ballJson);
+                }
 
-                    File.WriteAllText(_path, _logArray.ToString());
-                }
-                catch (IOException ex)
-                {
-                    Console.WriteLine("Error writing to the log file: " + ex.Message);
-                }
-                finally
-                {
-                    _fileMutex.ReleaseMutex();
-                    _ballsMutex.ReleaseMutex();
-                }
+                File.WriteAllText(_path, _logArray.ToString());
+            }
+            catch (IOException ex)
+            {
+                Console.WriteLine("Error writing to the log file: " + ex.Message);
+            }
+            finally
+            {
+                _fileMutex.ReleaseMutex();
             }
         }
 
@@ -76,11 +72,11 @@ namespace Data
             return ballJson;
         }
 
-        ~BallsLogger()
+        public void Dispose()
         {
-            _fileMutex.WaitOne();
-            _fileMutex.ReleaseMutex();
+            _writeTimer.Stop(); 
+            _writeTimer.Dispose();
         }
-
     }
 }
+
