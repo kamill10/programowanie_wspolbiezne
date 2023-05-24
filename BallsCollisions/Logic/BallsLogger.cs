@@ -3,9 +3,11 @@ using System.Collections.Concurrent;
 using System.IO;
 using System.Threading;
 using System.Timers;
+using Data;
 using Newtonsoft.Json.Linq;
 
-namespace Data
+
+namespace Logic
 {
     public class BallsLogger : AbstractBallsLogger, IDisposable
     {
@@ -27,7 +29,7 @@ namespace Data
             }
 
             _writeTimer = new System.Timers.Timer();
-            _writeTimer.Interval = 1000; // Zapisuj co sekundę
+            _writeTimer.Interval = 10; 
             _writeTimer.Elapsed += WriteTimerElapsed;
             _writeTimer.Start();
         }
@@ -64,10 +66,6 @@ namespace Data
 
         private JObject ConvertBallToJson(Balls ball)
         {
-            // Implement the logic to convert the Balls object to a JObject (JSON object)
-            // You can use a library like Newtonsoft.Json to conveniently perform the conversion
-
-            // Sample implementation using Newtonsoft.Json library:
             JObject ballJson = JObject.FromObject(ball);
             return ballJson;
         }

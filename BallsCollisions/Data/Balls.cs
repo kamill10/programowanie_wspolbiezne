@@ -12,7 +12,6 @@ namespace Data
         private float _speed;
         private float _radious;
         private float _mass;
-        private AbstractBallsLogger logger = new BallsLogger();
 
         public Guid _id { get; set; }
 
